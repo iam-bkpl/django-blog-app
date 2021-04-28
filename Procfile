@@ -1,0 +1,1 @@
+web: gunicorn bsatya.wsgi --log-file -

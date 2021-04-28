@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Blog post{% endblock title %}
+{% block page-content %}
+
+
+<!-- Page Content -->
+<div class="page-heading header-text">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+      <h1 class="display-4 fst-italic">{{post.title}}</h1>
+        <p class="text-white  my-3">{{post.slug}}</p>
+        <p class="lead">by- {{post.author}} </p>
+         
+                <div class="container">
+               <form class="d-flex" method="GET" action="{% url 'search'%}">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query"
+                        id="query" />
+                </form>
+                </div>
+
+  
+
+      </div>
+    </div>
+    
+  </div>
+  
+</div>
+{% endblock page-content %}
+
+{% block body %}
+{% block blog-nav %}
+   
+<div class="container">
+ 
+  <div class="nav-scroller py-1 mb-2">
+    <nav class="nav d-flex justify-content-between">
+      <a class="p-2 link-secondary" href="#">Java</a>
+      <a class="p-2 link-secondary" href="#">C</a>
+      <a class="p-2 link-secondary" href="#">English</a>
+    
+    </nav>
+  </div>
+</div>
+
+{% endblock blog-nav %}
+{% comment %} {% block blog-nav %}
+   
+<div class="container">
+ 
+  <div class="nav-scroller py-1 mb-2">
+    <nav class="nav d-flex justify-content-between">
+      <a class="p-2 link-secondary" href="#">Java</a>
+      <a class="p-2 link-secondary" href="#">C</a>
+      <a class="p-2 link-secondary" href="#">English</a>
+    
+    </nav>
+  </div>
+</div>
+
+{% endblock blog-nav %} {% endcomment %}
+
+<main class="container ">
+  <div class="row">
+    <div class="col-md-8">
+      {% comment %} <h3 class="pb-4 mb-4 fst-italic border-bottom">
+        by {{post.author}}
+      </h3> {% endcomment %}
+
+      <article class="blog-post">
+      <h3 class="mt-4 ">{{post.title}} </h3>
+        <p class="blog-post-meta mt-1">{{post.timeStamp}}  -by <a href="/about"> {{post.author}}</a> ({{post.views}} views)</p>
+        <p>{{post.content |safe}} </p>
+        </article><!-- /.blog-post -->
+      <nav class="blog-pagination" aria-label="Pagination">
+        <a class="btn btn-outline-primary" href="#">Older</a>
+        <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
+      </nav>
+
+    </div>
+    
+  </div>
+  
+  </main>
+
+  
+{% endblock body %}
+

@@ -130,12 +130,12 @@
               <li
                 class="nav-item {% block loginActive %}{% endblock loginActive %}"
               >
-                <a class="nav-link" href="./accounts/login">Login </a>
+                <a class="nav-link" href="/./accounts/login">Login </a>
               </li>
               <li
                 class="nav-item {% block signupActive %}{% endblock signupActive %}"
               >
-                <a class="nav-link" href="./accounts/register">Signup</a>
+                <a class="nav-link" href="/./accounts/register">Signup</a>
               </li>
               
               {% endif %}
@@ -152,15 +152,15 @@
     <!-- Banner Starts Here -->
     {% block page-content %}
     {% endblock page-content %} 
-    
-    {% block body %} {% endblock body %}
-
     {% for message in messages %}
     <div class="alert alert-{{message.tags}} mb-0 alert-dismissible fade show" role="alert">
         <strong>Hey there</strong> {{message}}
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     {% endfor %}
+    {% block body %} {% endblock body %}
+
+    
 
     {% block services %} {% endblock services %}
     <!-- Banner Ends Here -->

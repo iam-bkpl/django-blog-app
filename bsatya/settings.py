@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-jwr^#scslp94#zm%v4*nb&pls_b+a6m^acw)u6i#uw^dli!q_m'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['bsatya.herokuapp.com', '127.0.0.1']
 
@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'contact.apps.ContactConfig',
     'blog.apps.BlogConfig',
     'search.apps.SearchConfig',
+    'comment.apps.CommentConfig',
+    'django.contrib.humanize',
     # 'tinymce',
     # 'ckeditor',
 ]
@@ -78,7 +80,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'bsatya.wsgi.application'
+## WSGI_APPLICATION = 'bsatya.wsgi.application'
+# WSGI_APPLICATION = 'wsgi.application'
 
 
 # Database
@@ -135,7 +138,7 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+STATIC_ROOT = os.path.join(BASE_DIR,'assets')
 
 STATICFILES_DIRS =[
     os.path.join(BASE_DIR,'static')

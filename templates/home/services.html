@@ -9,48 +9,48 @@ imgUrl %} {% block serviceActive %}active{% endblock serviceActive %}
         <h1>Our Services</h1>
         <span>We are over 20 years of experience</span>
       </div>
-       
-                <div class="container">
-               <form class="d-flex" method="GET" action="{% url 'search'%}">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query"
-                        id="query" />
-                </form>
-                </div>
+
+      <div class="container">
+        <form class="d-flex" method="GET" action="{% url 'search'%}">
+          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query"
+            id="query" />
+        </form>
+      </div>
 
     </div>
   </div>
 </div>
-{% endblock page-content %} 
+{% endblock page-content %}
 {% block service %}
 
 {% comment %} {% for service in services %} {% endcomment %}
 
-    <div class="services">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="section-heading">
-              <h2>Subjects Notes</h2>
-              <span>you can reffer our website for your study</span>
-            </div>
-          </div>
-
-{% for program  in programs %}
-          <div class="col-md-4">
-            <div class="service-item">
-              <img src="{{program.img.url}}" alt="img">
-              <div class="down-content">
-                <h4>{{program.name}}</h4>
-                <p>{{program.desc}}</p>
-                <a href="/blog/{{post.slug}}" class="filled-button">Read More</a>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
+<div class="services">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="section-heading">
+          <h2>Subjects Notes</h2>
+          <span>you can reffer our website for your study</span>
         </div>
       </div>
+
+      {% for program in programs %}
+      <div class="col-md-4">
+        <div class="service-item">
+          <img src="{{program.img.url}}" alt="img">
+          <div class="down-content">
+            <h4>{{program.name}}</h4>
+            <p>{{program.desc}}</p>
+            <a href="/blog/{{post.slug}}" class="filled-button">Read More</a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
     </div>
+  </div>
+</div>
 
 {% comment %} {% endfor %} {% endcomment %}
-{% endblock service %} 
+{% endblock service %}
 {% block partners %}{% endblock partners %}

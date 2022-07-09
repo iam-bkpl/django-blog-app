@@ -1,90 +1,170 @@
-{% extends 'base.html' %}
-
-{% block title %}Blog post{% endblock title %}
-{% block page-content %}
-
-
+{% extends 'base.html' %} {% block title %}Blog post{% endblock title %}
+{%block page-content %}
+{% load humanize %}
+{% load extras %}
 <!-- Page Content -->
 <div class="page-heading header-text">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-      <h1 class="display-4 fst-italic">{{post.title}}</h1>
-        <p class="text-white  my-3">{{post.slug}}</p>
-        <p class="lead">by- {{post.author}} </p>
-         
-                <div class="container">
-               <form class="d-flex" method="GET" action="{% url 'search'%}">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query"
-                        id="query" />
-                </form>
-                </div>
+        <h1 class="display-4 fst-italic">{{post.title}}</h1>
+        <p class="text-white my-3">{{post.slug}}</p>
+        <p class="lead">by- {{post.author}}</p>
 
-  
-
+        <div class="container">
+          <form class="d-flex" method="GET" action="{% url 'search'%}">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query"
+              id="query" />
+          </form>
+        </div>
       </div>
     </div>
-    
   </div>
-  
 </div>
-{% endblock page-content %}
+{% endblock page-content %} {% block body %} {% block blog-nav %}
 
-{% block body %}
-{% block blog-nav %}
-   
 <div class="container">
- 
   <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
       <a class="p-2 link-secondary" href="#">Java</a>
       <a class="p-2 link-secondary" href="#">C</a>
       <a class="p-2 link-secondary" href="#">English</a>
-    
     </nav>
   </div>
 </div>
 
-{% endblock blog-nav %}
-{% comment %} {% block blog-nav %}
-   
+{% endblock blog-nav %} {% comment %} {% block blog-nav %}
+
 <div class="container">
- 
   <div class="nav-scroller py-1 mb-2">
     <nav class="nav d-flex justify-content-between">
       <a class="p-2 link-secondary" href="#">Java</a>
       <a class="p-2 link-secondary" href="#">C</a>
       <a class="p-2 link-secondary" href="#">English</a>
-    
     </nav>
   </div>
 </div>
 
 {% endblock blog-nav %} {% endcomment %}
 
-<main class="container ">
+<main class="container">
   <div class="row">
     <div class="col-md-8">
-      {% comment %} <h3 class="pb-4 mb-4 fst-italic border-bottom">
-        by {{post.author}}
-      </h3> {% endcomment %}
+      {% comment %}
+      <h3 class="pb-4 mb-4 fst-italic border-bottom">by {{post.author}}</h3>
+      {% endcomment %}
 
       <article class="blog-post">
-      <h3 class="mt-4 ">{{post.title}} </h3>
-        <p class="blog-post-meta mt-1">{{post.timeStamp}}  -by <a href="/about"> {{post.author}}</a> ({{post.views}} views)</p>
-        <p>{{post.content |safe}} </p>
-        </article><!-- /.blog-post -->
+        <h3 class="mt-4">{{post.title}}</h3>
+        <p class="blog-post-meta mt-1">
+          {{post.timeStamp}} -by
+          <a href="/about"> {{post.author}}</a> ({{post.views}} views)
+        </p>
+        <p>{{post.content |safe}}</p>
+      </article>
+      <!-- /.blog-post -->
+
+      <div class="container ">
+        <h2 class="mt-4 ">Comments ({{comments.count}})</h2>
+
+        {% if user.is_authenticated %}
+
+        <form action="/comment/postComment" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="postSno" value="{{post.sno}} ">
+
+          <div class="mb-3">
+            <div id="commenthelp" class="form-text">Enter your comment here</div>
+            <input type="text" class="form-control" name="comment" id="comment" placeholder="Enter your comment">
+          </div>
+          <input type="hidden" name="{{post.sno}} " value="{{post.sno}} ">
+          <input type="hidden" name="parentSno" id="" value="">
+          <button type="submit" class="btn btn-outline-primary">Submit</button>
+        </form>
+        {% else %}
+        <p> Please <a href="/./accounts/login"> <span class="badge badge-secondary">login</span> </a> to post a comment
+        </p>
+        {% endif %}
+
+
+        {% for comment in comments %}
+        <div class="row my-3 ">
+          <div class="col-md-1"><img src="/static/assets/images/user.png" class="w-100 rounded mx-auto d-block p-1">
+          </div>
+          <div class="col-md-11"> <b> {{comment.user.username}}</b> <span
+              class="badge badge-secondary">{{comment.timestamp| naturaltime }} </span>
+            <div> {{comment.comment}}</div>
+          </div>
+         </div>
+          <div class="reply mx-0 ">
+            <p>
+              {% if user.is_authenticated %}
+              <div class="mx-2" >
+              <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#replybox{{comment.sno}}" role="button"
+                aria-expanded="false" aria-controls="replybox{{comment.sno}}">
+                Reply
+              </a>
+              </div>
+            </p>
+            <div class="collapse my-2" id="replybox{{comment.sno}}">
+              <div class="card card-body">
+
+                <form action="/comment/postComment" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="postSno" value="{{post.sno}} ">
+
+                  <div class="mb-3">
+                    <div id="commenthelp" class="form-text">Post a reply</div>
+                    <input type="text" class="form-control" name="comment" id="comment"
+                      placeholder="Enter your comment">
+                    <input type="hidden" name="parentSno" id="" value="{{comment.sno}} ">
+                  </div>
+                  <input type="hidden" name="postSno" value="{{post.sno}}">
+                  <button type="submit" class="btn btn-outline-primary">Submit</button>
+                </form>
+
+              </div>
+            </div>
+          {% else %}
+           <a class="btn btn-sm btn-primary" data-bs-toggle="collapse" href="#replybox{{comment.sno}}" role="button"
+                aria-expanded="false" aria-controls="replybox{{comment.sno}}" disabled>
+                Login to reply
+              </a>
+
+            {% endif %}
+            <div class="replies my-2">
+
+              {% for reply in replyDict|get_val:comment.sno %}
+                <div class="row my-2 ">
+                  <div class="col-md-1">
+                   <img src="/static/assets/images/user.png" class="w-75 rounded mx-auto d-block p-1">
+                  </div>
+                  <div class="col-md-11">
+                   <b> {{reply.user.username}}</b> 
+                  <span class="badge badge-secondary">{{reply.timestamp| naturaltime }}</span>
+                <div> {{reply.comment}} 
+                <br>
+                </div>
+
+              </div>
+              {% endfor %}         
+<hr>
+            </div>
+
+
+          </div>
+
+        </div>
+        {% endfor %}
+<!-- 
+      </div> -->
+
       <nav class="blog-pagination" aria-label="Pagination">
         <a class="btn btn-outline-primary" href="#">Older</a>
         <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>
       </nav>
-
     </div>
-    
   </div>
-  
-  </main>
+</main>
 
-  
 {% endblock body %}
-
